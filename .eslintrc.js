@@ -19,7 +19,7 @@ module.exports = {
     'generator-star-spacing': 0,
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
-    "no-unused-vars": [2, { 
+    "no-unused-vars": [1, { 
      // 允许声明未使用变量
      "vars": "local",
      // 参数不检查
@@ -39,29 +39,28 @@ module.exports = {
         "align": "colon"
        }
     }],
-    //空行最多不能超过100行
+    //空行最多不能超过150行
     "no-multiple-empty-lines": [0, {"max": 150}],
     //关闭禁止混用tab和空格
     "no-mixed-spaces-and-tabs": [0],
-    //数组第一个指定是否启用这个规则，第二个指定几个空格
-    "indent":[2, 4], 
+    // 数组第一个指定是否启用这个规则，第二个指定几个空格
+    "indent":[2, 2], 
     "eqeqeq": 2, // 必须使用全等 
     "no-alert": 1, // 禁止使用alert confirm prompt
-    "no-console": 2, // 禁止使用console
-    "no-debugger": 2,//禁止使用debugger
+    "no-console": 1, // 禁止使用console
+    "no-debugger": 1,//禁止使用debugger
     "no-extra-parens": 2, //禁止非必要的括号
     "no-extra-semi": 2, //禁止多余的冒号
     "no-func-assign": 2,//禁止重复的函数声明
     "padded-blocks": 0,//块语句内行首行尾是否要空行
     "prefer-const": 0,//首选const
     "prefer-spread": 0,//首选展开运算
-    "prefer-reflect": 0,//首选Reflect的方法
     "quotes": [1, "single"],//引号类型 `` "" ''
-    "quote-props":[2, "always"],//对象字面量中的属性名是否强制双引号
+    "quote-props":[0, "always"],//对象字面量中的属性名是否强制双引号
     "radix": 2,//parseInt必须指定第二个参数
     "id-match": 0,//命名检测
     "require-yield": 0,//生成器函数必须有yield
-    "semi": [2, "always"],//语句强制分号结尾
+    "semi": [0, "always"],//语句强制分号结尾
     "semi-spacing": [0, {"before": false, "after": true}],//分号前后空格
     "sort-vars": 0,//变量声明时排序
     "space-after-keywords": [0, "always"],//关键字后面是否要空一格
