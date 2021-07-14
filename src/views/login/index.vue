@@ -48,7 +48,8 @@
 </template>
 
 <script>
-import request from '@/utils/request'
+import { login } from '@/api/user'
+
 export default {
   name: 'LoginIndex',
   components: {},
@@ -118,34 +119,22 @@ export default {
         }
 
         // 验证通过，请求登录
-        this.login()
-      })
-    },
-
-    login() {
-      // 开启登陆中 loading...
-      this.loginLoading = true
-
-      request({
-        method: 'POST',
-        url: '/mp/v1_0/authorizations',
-        // data 用来设置 POST 请求体
-        data: this.user,
-      })
-        .then((res) => {
-          // 登录成功
-          this.$message({
-            message: '登录成功',
-            type: 'success',
+        login(this.user)
+          .then((res) => {
+            // 登录成功
+            this.$message({
+              message: '登录成功',
+              type: 'success',
+            })
+            // 关闭 loading
+            this.loginLoading = false
           })
-          // 关闭 loading
-          this.loginLoading = false
-        })
-        .catch((err) => {
-          this.$message.error('登录失败，手机号或验证码错误')
-          // 关闭 loading
-          this.loginLoading = false
-        })
+          .catch(() => {
+            this.$message.error('登录失败，手机号或验证码错误')
+            // 关闭 loading
+            this.loginLoading = false
+          })
+      })
     },
   },
 }
