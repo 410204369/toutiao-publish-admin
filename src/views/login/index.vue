@@ -57,8 +57,8 @@ export default {
   data() {
     return {
       user: {
-        mobile: '', // 手机号
-        code: '', // 验证码
+        mobile: '13911111111', // 手机号
+        code: '246810', // 验证码
         agree: false, // 是否同意协议
       },
       checked: false, // 是否同意协议的选中状态
@@ -128,6 +128,13 @@ export default {
             })
             // 关闭 loading
             this.loginLoading = false
+
+            // 将用户相关的信息存放到本地，方便应用数据共享
+            // 本地存储只能存字符串
+            window.localStorage.setItem('user', JSON.stringify(res.data.data))
+            this.$router.push({
+              name: 'layout',
+            })
           })
           .catch(() => {
             this.$message.error('登录失败，手机号或验证码错误')
