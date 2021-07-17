@@ -1,6 +1,6 @@
 <template>
   <el-container class="layout-container">
-    <el-aside class="aside" width="auto">
+    <el-aside class="aside" :width="isCollapse ? '64px' : '200px'">
       <app-aside class="aside-menu" :is-collapse="isCollapse" />
     </el-aside>
     <el-container>
@@ -14,7 +14,7 @@
               }"
               @click="isCollapse = !isCollapse"
             ></i>
-            <span>江苏传智播客科技教育有限公司</span>
+            <span>湖南科技大学教务管理系统</span>
           </div>
           <el-dropdown>
             <div class="avatar-wrap">
@@ -71,7 +71,7 @@ export default {
     },
     // 退出登录
     onLogout() {
-      this.$confirm('是否退出登录?', '退出提示', {
+      this.$confirm('是否退出登录?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
@@ -107,10 +107,6 @@ export default {
   .aside-menu {
     height: 100%;
   }
-}
-
-.header {
-  background-color: #b3c0d1;
 }
 
 .main {

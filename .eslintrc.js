@@ -24,7 +24,8 @@ module.exports = {
      "vars": "local",
      // 参数不检查
      "args": "none"
-    }],
+    }], 
+    'no-spaced-func': 2, //函数调用时 函数名与()之间不能有空格 - 开启
     // 关闭语句强制分号结尾
     "semi": [2],
     //key值前面是否要有空格

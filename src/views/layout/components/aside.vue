@@ -5,11 +5,12 @@
   <el-menu
     class="nav-menu"
     default-active="/"
-    background-color="#002033"
+    background-color="#333744"
     text-color="#fff"
-    active-text-color="#ffd04b"
+    active-text-color="#409FFF"
     router
     :collapse="isCollapse"
+    :collapse-transition="false"
   >
     <el-menu-item index="/">
       <i class="el-icon-s-home"></i>
