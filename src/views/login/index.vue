@@ -59,7 +59,7 @@ export default {
       user: {
         mobile: '13911111111', // 手机号
         code: '246810', // 验证码
-        agree: false, // 是否同意协议
+        agree: true, // 是否同意协议
       },
       checked: false, // 是否同意协议的选中状态
       loginLoading: false, // 是否同意协议的选中状态
@@ -133,7 +133,8 @@ export default {
             // 本地存储只能存字符串
             window.localStorage.setItem('user', JSON.stringify(res.data.data))
             this.$router.push({
-              name: 'layout',
+              // name: 'layout',
+              path: '/',
             })
           })
           .catch(() => {
