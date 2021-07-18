@@ -5,7 +5,9 @@
         <!-- 面包屑路径导航 -->
         <el-breadcrumb separator-class="el-icon-arrow-right">
           <el-breadcrumb-item to="/">首页</el-breadcrumb-item>
-          <el-breadcrumb-item>发布文章</el-breadcrumb-item>
+          <el-breadcrumb-item>{{
+            $route.query.id ? '修改文章' : '发布文章'
+          }}</el-breadcrumb-item>
         </el-breadcrumb>
         <!-- /面包屑路径导航 -->
       </div>
@@ -45,7 +47,12 @@
 </template>
 
 <script>
-import { getArticleChannels, addArticle } from '@/api/article'
+import {
+  getArticleChannels,
+  addArticle,
+  getArticle,
+  updateArticle,
+} from '@/api/article'
 export default {
   name: 'PublishIndex',
   components: {},
@@ -69,6 +76,10 @@ export default {
   watch: {},
   created() {
     this.loadChannels()
+    // 编辑页面和发布页面是同一个组件，所以需要根据id判断
+    if (this.$route.query.id) {
+      this.loadArticle()
+    }
   },
   mounted() {},
   methods: {
@@ -79,11 +90,33 @@ export default {
       })
     },
     onPublish(draft = false) {
-      addArticle(this.article, draft).then((res) => {
-        this.$message({
-          message: '发布成功',
-          type: 'success',
+      const articleId = this.$route.query.id
+      // 执行修改操作
+      if (articleId) {
+        updateArticle(articleId, this.article, draft).then((res) => {
+          this.$message({
+            message: `${draft ? '存入草稿' : '修改'}成功`,
+            type: 'success',
+          })
+          // 跳转内容管理页
+          this.$router.push('/article')
         })
+      } else {
+        addArticle(this.article, draft).then((res) => {
+          this.$message({
+            message: `${draft ? '存入草稿' : '发布'}成功`,
+            type: 'success',
+          })
+          // 跳转内容管理页
+          this.$router.push('/article')
+        })
+      }
+    },
+
+    // 修改文章，加载文章内容
+    loadArticle() {
+      getArticle(this.$route.query.id).then((res) => {
+        this.article = res.data.data
       })
     },
   },
