@@ -28,6 +28,8 @@ import ElementUI from 'element-ui';
 // 按需加载element ui 组件
 import '@/plugins/element';
 import 'element-ui/lib/theme-chalk/index.css';
+
+
 import { message } from '@/utils/resetMessage'
 
 // 注册element ui 组件库
