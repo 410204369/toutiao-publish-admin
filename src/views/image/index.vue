@@ -32,50 +32,120 @@
           :lg="4"
           v-for="(img, index) in images"
           :key="index.vue"
+          class="image-item"
         >
           <el-image style="height: 100px" :src="img.url" fit="cover"></el-image>
+          <div class="image-action">
+            <i
+              :class="{
+                'el-icon-star-on': img.is_collected,
+                'el-icon-star-off': !img.is_collected,
+              }"
+              @click="onCollect(img)"
+            ></i>
+            <i class="el-icon-delete-solid"></i>
+          </div>
         </el-col>
       </el-row>
       <!-- /素材列表 -->
+      <!-- 数据分页 -->
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="per_page"
+        :page-sizes="[5, 10, 15, 20]"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalCount"
+      >
+      </el-pagination>
     </el-card>
     <el-dialog
       title="上传素材"
       :visible.sync="dialogUploadVisible"
-      append-to-body="true"
+      :append-to-body="true"
     >
+      <!-- 请求头：headers -->
+      <el-upload
+        class="upload-demo"
+        drag
+        action="http://api-toutiao-web.itheima.net/mp/v1_0/user/images"
+        :headers="uploadHeaders"
+        name="image"
+        multiple
+        :show-file-list="false"
+        :on-success="onUploadSuccess"
+      >
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+        <div class="el-upload__tip" slot="tip">
+          只能上传jpg/png文件，且不超过500kb
+        </div>
+      </el-upload>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { getImages } from '@/api/image'
+import { getImages, collectImage } from '@/api/image'
 export default {
   name: 'ImageIndex',
   components: {},
   props: {},
   data() {
+    const user = JSON.parse(window.localStorage.getItem('user'))
     return {
       collect: false,
       images: [],
       dialogUploadVisible: false,
+      uploadHeaders: {
+        Authorization: `Bearer ${user.token}`,
+      },
+      totalCount: 0,
+      pageSize: 10,
+      per_page: 1,
     }
   },
   computed: {},
   watch: {},
   created() {
-    this.loadImages(false)
+    this.loadImages(1, false)
   },
   mounted() {},
   methods: {
-    loadImages(collect = false) {
+    loadImages(page, per_page, collect = false) {
       getImages({
         collect,
+        page,
+        per_page: per_page || this.pageSize,
       }).then(({ data }) => {
         this.images = data.data.results
+        this.totalCount = data.data.total_count
       })
     },
     onChangeCollect(value) {
-      this.loadImages(value)
+      this.loadImages(1, this.pageSize, value)
+    },
+    onUploadSuccess() {
+      this.dialogUploadVisible = false
+      this.loadImages(1, 10, false)
+      this.$message({
+        type: 'success',
+        message: '上传成功',
+      })
+    },
+    handleSizeChange(val) {
+      console.log('val', val);
+      this.loadImages(1, val);
+    },
+
+    handleCurrentChange(val) {
+      this.loadImages(val)
+    },
+    onCollect(img) {
+      collectImage(img.id, !img.is_collected).then((res) => {
+        img.is_collected = !img.is_collected
+      })
     },
   },
 }
@@ -86,5 +156,27 @@ export default {
   padding-bottom: 20px;
   display: flex;
   justify-content: space-between;
+}
+::v-deep .el-dialog {
+  width: 40% !important;
+}
+.upload-demo {
+  text-align: center;
+}
+.image-item {
+  position: relative;
+}
+.image-action {
+  height: 40px;
+  position: absolute;
+  background-color: rgba(204, 204, 204, 0.5);
+  bottom: 4px;
+  left: 5px;
+  right: 5px;
+  font-size: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  color: #fff;
 }
 </style>
