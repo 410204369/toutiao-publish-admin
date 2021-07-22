@@ -174,8 +174,7 @@
 import { getArticles, getArticleChannels, deleteArticle } from '@/api/article'
 export default {
   name: 'ArticleIndex',
-  components: {
-  },
+  components: {},
   props: {},
   data() {
     return {

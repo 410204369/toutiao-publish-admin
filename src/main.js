@@ -2,6 +2,7 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import axios from 'axios'
 // 添加全局样式
 import './styles/index.less';
 
@@ -37,6 +38,8 @@ Vue.use(ElementUI);
 
 // 注意一定要在element 下面
 Vue.prototype.$message = message;
+
+Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false;
 new Vue({

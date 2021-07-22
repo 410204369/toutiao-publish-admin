@@ -70,5 +70,19 @@ module.exports = {
     "space-in-parens": [0, "never"],//小括号里面要不要有空格
     "space-infix-ops": 0,//中缀操作符周围要不要有空格
     "spaced-comment": 2,//注释风格要不要有空格什么的
+    // 'vue/max-attributes-per-line': [
+    //   2,
+    //   {
+    //     singleline: 10,
+    //     multiline: {
+    //       max: 1,
+    //       allowFirstLine: false
+    //     }
+    //   }
+    // ],
+    // 'vue/singleline-html-element-content-newline': 'off',
+    // 'vue/multiline-html-element-content-newline': 'off',
+    // 'vue/name-property-casing': ['error', 'PascalCase'],
+    // 'vue/no-v-html': 'off',
   }
 }

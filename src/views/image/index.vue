@@ -36,14 +36,30 @@
         >
           <el-image style="height: 100px" :src="img.url" fit="cover"></el-image>
           <div class="image-action">
-            <i
+            <el-button
+              type="warning"
+              :icon="img.is_collected ? 'el-icon-star-on' : 'el-icon-star-off'"
+              circle
+              size="small"
+              @click="onCollect(img)"
+              :loading="img.loading"
+            ></el-button>
+            <el-button
+              type="danger"
+              icon="el-icon-delete-solid"
+              circle
+              size="small"
+              @click="onDelete(img)"
+              :loading="img.loading"
+            ></el-button>
+            <!-- <i
               :class="{
                 'el-icon-star-on': img.is_collected,
                 'el-icon-star-off': !img.is_collected,
               }"
               @click="onCollect(img)"
-            ></i>
-            <i class="el-icon-delete-solid"></i>
+            ></i> -->
+            <!-- <i class="el-icon-delete-solid"></i> -->
           </div>
         </el-col>
       </el-row>
@@ -87,7 +103,7 @@
 </template>
 
 <script>
-import { getImages, collectImage } from '@/api/image'
+import { getImages, collectImage, deleteImage } from '@/api/image'
 export default {
   name: 'ImageIndex',
   components: {},
@@ -119,7 +135,11 @@ export default {
         page,
         per_page: per_page || this.pageSize,
       }).then(({ data }) => {
-        this.images = data.data.results
+        const results = data.data.results
+        results.forEach((img) => {
+          img.loading = false
+        })
+        this.images = results
         this.totalCount = data.data.total_count
       })
     },
@@ -135,16 +155,32 @@ export default {
       })
     },
     handleSizeChange(val) {
-      console.log('val', val);
-      this.loadImages(1, val);
+      this.loadImages(1, val)
     },
 
     handleCurrentChange(val) {
       this.loadImages(val)
     },
     onCollect(img) {
+      img.loading = true
       collectImage(img.id, !img.is_collected).then((res) => {
         img.is_collected = !img.is_collected
+        img.loading = false
+        this.$message({
+          type: 'success',
+          message: '收藏成功',
+        })
+      })
+    },
+    onDelete(img) {
+      img.loading = true
+      deleteImage(img.id).then((res) => {
+        this.loadImages(this.page)
+        img.loading = false
+        this.$message({
+          type: 'success',
+          message: '删除成功',
+        })
       })
     },
   },
