@@ -61,7 +61,7 @@ module.exports = {
     "radix": 2,//parseInt必须指定第二个参数
     "id-match": 0,//命名检测
     "require-yield": 0,//生成器函数必须有yield
-    "semi": [0, "always"],//语句强制分号结尾
+    "semi": [1, "never"],//语句强制分号结尾
     "semi-spacing": [0, {"before": false, "after": true}],//分号前后空格
     "sort-vars": 0,//变量声明时排序
     "space-after-keywords": [0, "always"],//关键字后面是否要空一格
